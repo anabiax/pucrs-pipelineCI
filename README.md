@@ -39,3 +39,13 @@ terraform apply -var="ssh_allowed_cidr=SEU_IP/32"
 ```
 
 Requer credenciais AWS configuradas (`aws configure`).
+
+## Entrega Contínua e Containers (Fase 2)
+
+```bash
+docker build -t pucrs-pipelineci .
+docker run -p 8000:8000 pucrs-pipelineci      # http://localhost:8000/health
+IMAGE=ghcr.io/anabiax/pucrs-pipelineci:latest ./scripts/deploy.sh
+```
+
+O pipeline (`ci.yml`) passa a ter os jobs `docker-build` (publica a imagem no GHCR) e `deploy` (SSH na EC2 executando `scripts/deploy.sh`, apenas na `main`). Segredos/variáveis: `DEPLOY_SSH_KEY` (secret) e `DEPLOY_HOST` (variable).
