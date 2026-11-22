@@ -13,6 +13,14 @@ if ! command -v docker >/dev/null 2>&1; then
   sudo systemctl enable --now docker
 fi
 
+if ! docker compose version >/dev/null 2>&1; then
+  echo ">> Docker Compose não encontrado; instalando..."
+  sudo mkdir -p /usr/local/lib/docker/cli-plugins
+  sudo curl -fsSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 \
+    -o /usr/local/lib/docker/cli-plugins/docker-compose
+  sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+fi
+
 echo ">> Baixando imagem ${IMAGE}"
 docker pull "${IMAGE}"
 

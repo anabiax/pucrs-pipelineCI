@@ -111,5 +111,4 @@ jobs:
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
             cd /home/ec2-user/app
-            echo "${{ secrets.GITHUB_TOKEN }}" | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
             IMAGE=${{ env.IMAGE }}:${{ github.sha }} bash scripts/deploy.sh
